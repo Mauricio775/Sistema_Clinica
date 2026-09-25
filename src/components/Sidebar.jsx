@@ -10,7 +10,7 @@ function Sidebar() {
     <aside className="w-64 bg-white border-r border-gray-200 min-h-screen p-6">
       <div className="flex flex-col items-center text-center mb-8">
         <div className="w-20 h-20 rounded-full bg-blue-100 mb-3 flex items-center justify-center text-2xl">
-          🎓
+        ---
         </div>
         <h2 className="font-bold text-gray-800 leading-tight">
           Sistema Clinica
