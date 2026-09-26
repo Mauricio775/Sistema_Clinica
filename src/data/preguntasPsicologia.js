@@ -1,0 +1,122 @@
+export const entrevistaPsicologica = {
+  informacionPersonal: [
+    { key: "primerNombre", label: "Primer Nombre", type: "text" },
+    { key: "segundoNombre", label: "Segundo Nombre", type: "text" },
+    { key: "numeroCuenta", label: "Número de cuenta", type: "text" },
+    { key: "tipoConsulta", label: "Tipo de consulta", type: "radio", options: ["Consulta espontánea", "Consulta referida"] },
+    { key: "drReferente", label: "Dr. (a) que refiere", type: "text" },
+    { key: "primerApellido", label: "Primer Apellido", type: "text" },
+    { key: "segundoApellido", label: "Segundo Apellido", type: "text" },
+    { key: "numeroDni", label: "Número de DNI", type: "text" },
+    { key: "edad", label: "Edad", type: "text" },
+    { key: "sexo", label: "Sexo", type: "radio", options: ["Mujer", "Hombre"] },
+    { key: "direccionActual", label: "Dirección actual", type: "text" },
+    { key: "carrera", label: "Carrera", type: "text" },
+    { key: "lugarProcedencia", label: "Lugar de procedencia", type: "text" },
+    { key: "numeroCelular", label: "Número de Celular", type: "text" },
+    { key: "correoElectronico", label: "Correo electrónico institucional (personal)", type: "text" },
+    {
+      key: "estadoCivil",
+      label: "Estado Civil",
+      type: "radio",
+      options: ["Soltero", "Unión libre", "Casado", "Divorciado", "Viudo"],
+    },
+    { key: "emergenciaNombre", label: "En caso de emergencia llamar a: Nombre", type: "text" },
+    { key: "emergenciaParentesco", label: "Parentesco", type: "text" },
+    { key: "emergenciaTelefono", label: "Teléfono", type: "text" },
+    { key: "motivoConsulta", label: "Motivo de Consulta", type: "textarea" },
+    { key: "fecha", label: "Fecha", type: "text" },
+    { key: "hora", label: "Hora", type: "text" },
+    { key: "impresionDiagnostica", label: "Impresión Diagnóstica", type: "textarea" },
+    { key: "psicologoResponsable", label: "Psicólogo Responsable", type: "text" },
+  ],
+
+  antecedentesSituacion: [
+    { key: "comoAfectaVida", label: "¿Cómo siente que esta situación ha afectado su vida?", type: "textarea" },
+    { key: "haceCuantoSeSiente", label: "¿Hace cuánto se siente de esa manera?", type: "textarea" },
+    { key: "ambitosAfecta", label: "¿En qué ámbitos le afecta que se sienta de esa manera?", type: "textarea" },
+  ],
+
+  historiaFamiliar: [
+    { key: "relacionPadresNino", label: "¿Cómo era la relación con sus padres cuando era niño?", type: "textarea" },
+    { key: "relacionPadresActual", label: "¿Cómo describiría la relación con sus padres actualmente?", type: "textarea" },
+    { key: "relacionEntrePadres", label: "¿Cómo es la relación entre sus padres?", type: "textarea" },
+    { key: "tieneHermanos", label: "¿Tiene hermanos?", type: "radio", options: ["Sí", "No"] },
+    { key: "relacionHermanos", label: "¿Cómo es su relación con sus hermanos?", type: "textarea" },
+    { key: "formaCastigo", label: "¿Cuándo era niño de qué forma lo castigaban?", type: "textarea" },
+    { key: "respuestaCastigos", label: "¿Cómo respondía a los castigos?", type: "textarea" },
+    { key: "acontecimientosFamiliares", label: "¿Ha habido acontecimientos, enfermedades, accidentes o problemas que le preocupan dentro de la familia?", type: "textarea" },
+    { key: "conQuienesVive", label: "¿Con quiénes vive actualmente? Y ¿Cómo se siente con esas personas?", type: "textarea" },
+  ],
+
+  socializacion: [
+    { key: "relacionesActuales", label: "¿Cómo son sus relaciones con las demás personas actualmente?", type: "textarea" },
+    { key: "amistosaSolitaria", label: "¿Te consideras una persona amistosa o solitaria?", type: "text" },
+    { key: "actividadesSoloOConOtros", label: "Prefiere realizar sus actividades laborales y recreativas solo o con otras personas", type: "text" },
+  ],
+
+  aspectosAcademicosLaborales: [
+    { key: "comoSienteCarrera", label: "¿Cómo se siente en la profesión/carrera que estudia?", type: "textarea" },
+    { key: "trabaja", label: "Trabaja", type: "radio", options: ["Sí", "No"] },
+    { key: "indiceGlobal", label: "Índice Global", type: "text" },
+    { key: "indicePeriodo", label: "Índice de Periodo Actualmente Cursado", type: "text" },
+    { key: "becaEstudiantil", label: "¿Actualmente tiene beca estudiantil? ¿Qué tipo de beca es?", type: "text" },
+    { key: "actualmenteLabora", label: "¿Actualmente labora? ¿En qué labora?", type: "text" },
+  ],
+
+  antecedentesMedicosPsiquiatricos: [
+    { key: "atencionPsicologicaPrevia", label: "¿Anteriormente ha recibido atención psicológica o psiquiátrica? ¿Cuál fue el motivo?", type: "textarea" },
+    { key: "antecedentePsicologicoFamiliar", label: "¿En su familia anteriormente alguien ha tenido algún antecedente psicológico?", type: "textarea" },
+    { key: "enfermedadesMedicasGraves", label: "¿Ha padecido o padece enfermedades médicas graves/accidentes?", type: "textarea" },
+    { key: "medicamentoActual", label: "¿Toma algún medicamento actualmente? ¿Cuál y por qué?", type: "textarea" },
+    { key: "intervencionQuirurgica", label: "¿Ha sido intervenido quirúrgicamente? ¿De qué?", type: "textarea" },
+    { key: "comoEsPeriodo", label: "¿Actualmente cómo es su periodo?", type: "textarea" },
+    { key: "sintomasInusuales", label: "¿Tiene síntomas inusuales?", type: "textarea" },
+  ],
+
+  relacionesInterpersonalesSexual: [
+    { key: "relacionesAmorosas", label: "¿Ha tenido relaciones amorosas ya sea de noviazgo/matrimonio u otros?", type: "textarea" },
+    { key: "experienciasSexuales", label: "¿Ha tenido experiencias sexuales? ¿De qué tipo?", type: "textarea" },
+  ],
+
+  habitosJudicialesPersonalidad: [
+    { key: "antecedentesPenales", label: "¿Ha tenido antecedentes penales o se ha visto envuelto en problemas legales?", type: "radio", options: ["Sí", "No"] },
+    { key: "antecedentesPenalesTipo", label: "¿De qué tipo?", type: "text" },
+    { key: "consumeSustancias", label: "¿Consume algún tipo de sustancias?", type: "radio", options: ["Sí", "No"] },
+    { key: "consumeSustanciasCual", label: "Especifique cuál", type: "text" },
+    { key: "consumeTabaco", label: "¿Consume tabaco?", type: "radio", options: ["Sí", "No"] },
+    { key: "habitoPerjudicial", label: "¿Tienes alguna rutina o hábito que consideres perjudicial para tu salud?", type: "textarea" },
+    { key: "descripcionPersonalidad", label: "¿Me podría decir cómo es tu personalidad? ¿Sientes que algo de ti ha cambiado últimamente?", type: "textarea" },
+    { key: "importaOpinionDemas", label: "¿Suele importarte mucho lo que piensen los demás de ti?", type: "textarea" },
+    { key: "reaccionNoAgradar", label: "¿Qué reacción tiene cuando a alguien no le agrada?", type: "textarea" },
+  ],
+
+  conductaObservada: [
+    { key: "lenguajeCorporal", label: "Lenguaje corporal", type: "textarea" },
+    { key: "lenguajeVerbal", label: "Lenguaje verbal", type: "textarea" },
+    { key: "silencios", label: "Silencios", type: "textarea" },
+  ],
+};
+
+export const sintomasPsicologicosList = [
+  { key: "problemasConcentrarse", label: "Problemas para concentrarse" },
+  { key: "convulsiones", label: "Convulsiones" },
+  { key: "onicofagia", label: "Onicofagia" },
+  { key: "sonambulismo", label: "Sonambulismo" },
+  { key: "pesadillasRecurrentes", label: "Pesadillas recurrentes" },
+  { key: "alergias", label: "Alergias" },
+  { key: "escuchaVoces", label: "Escucha voces" },
+  { key: "hipersomniaInsomnio", label: "Hipersomnia o insomnio" },
+  { key: "miedosFobias", label: "Miedos o fobias" },
+  { key: "golpesFuertesCabeza", label: "Golpes fuertes en la cabeza" },
+  { key: "pensamientosMorir", label: "Pensamientos de morir" },
+  { key: "asma", label: "Asma" },
+  { key: "alucinaciones", label: "Alucinaciones" },
+  { key: "estreñimiento", label: "Estreñimiento" },
+  { key: "mareosDesmayos", label: "Mareos o desmayos" },
+  { key: "diarreaTensional", label: "Diarrea tensional" },
+  { key: "accidentes", label: "Accidentes" },
+  { key: "ticsNerviosos", label: "Tics nerviosos" },
+  { key: "autolesiones", label: "Autolesiones" },
+  { key: "demasiadoApetitoPocoApetito", label: "Demasiado apetito o poco apetito" },
+];
