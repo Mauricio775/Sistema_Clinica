@@ -5,6 +5,7 @@ import {
   sintomasPsicologicosList,
   NUMERO_CITAS,
 } from "../../data/preguntasPsicologia";
+import Acordeon from "../fisioterapia/Acordeon";
 import {
   ROL_GINECOLOGIA,
   ROL_NUTRICION,
@@ -44,34 +45,30 @@ function crearValoresIniciales(paciente) {
   return valores;
 }
 
-function FormularioPsicologia({ paciente, onGuardado }) {
+function FormularioPsicologia({ paciente, psicologo, onGuardado }) {
   const { actualizarExpediente } = useExpedientes();
   const [valores, setValores] = useState(() => crearValoresIniciales(paciente));
   const [citas, setCitas] = useState(paciente?.citasPsicologia ?? citasVacias());
-  const [guardado, setGuardado] = useState(false);
 
   const handleValor = (clave, valor) => {
     setValores((prev) => ({ ...prev, [clave]: valor }));
-    setGuardado(false);
   };
 
   const handleCita = (indice, campo, valor) => {
     setCitas((prev) =>
       prev.map((c, i) => (i === indice ? { ...c, [campo]: valor } : c))
     );
-    setGuardado(false);
   };
 
   const handleGuardar = () => {
     const { remitirNueva, ...resto } = valores;
-    const datos = { ...resto, citasPsicologia: citas };
+    const datos = { ...resto, citasPsicologia: citas, psicologo };
     if (remitirNueva) {
       datos.remitirA = remitirNueva;
       datos.remisionDesde = "Psicología";
     }
     actualizarExpediente(paciente.cuenta, datos);
-    setGuardado(true);
-    if (remitirNueva) onGuardado?.(remitirNueva);
+    onGuardado?.(remitirNueva);
   };
 
   const renderCampo = (campo) => {
@@ -132,15 +129,12 @@ function FormularioPsicologia({ paciente, onGuardado }) {
     return null;
   };
 
-  const renderSeccion = (titulo, clave) => (
-    <div>
-      <p className={seccionTitulo}>{titulo}</p>
-      <div className="space-y-4">{entrevistaPsicologica[clave].map(renderCampo)}</div>
-    </div>
+  const renderCampos = (clave) => (
+    <div className="space-y-4">{entrevistaPsicologica[clave].map(renderCampo)}</div>
   );
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 space-y-8">
+    <div className="w-full space-y-6">
       <div>
         <h2 className="font-bold text-gray-800 text-lg">Entrevista Psicológica para Adultos</h2>
         <p className="text-gray-500 text-sm">
@@ -148,115 +142,142 @@ function FormularioPsicologia({ paciente, onGuardado }) {
         </p>
       </div>
 
-      {renderSeccion("I. Información personal (complementaria)", "datosComplementarios")}
-      {renderSeccion("Consulta", "consulta")}
-      {renderSeccion("II. Antecedentes de la situación", "antecedentesSituacion")}
-      {renderSeccion("III. Historia familiar", "historiaFamiliar")}
-      {renderSeccion("IV. Socialización", "socializacion")}
-      {renderSeccion("V. Aspectos académicos y laborales", "aspectosAcademicosLaborales")}
-      {renderSeccion("VI. Antecedentes médicos y psiquiátricos", "antecedentesMedicosPsiquiatricos")}
+      <div className="space-y-3">
+        <Acordeon titulo="1. Información personal (complementaria)">
+          {renderCampos("datosComplementarios")}
+        </Acordeon>
 
-      <div>
-        <p className={seccionTitulo}>Marque si en su vida ha presentado:</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 border border-gray-200 rounded-lg p-4">
-          {sintomasPsicologicosList.map((item) => (
-            <label key={item.key} className="flex items-center gap-2 text-sm text-gray-700">
-              <input
-                type="checkbox"
-                checked={!!valores[`sintoma_${item.key}`]}
-                onChange={(e) => handleValor(`sintoma_${item.key}`, e.target.checked)}
-              />
-              {item.label}
-            </label>
-          ))}
-        </div>
-      </div>
+        <Acordeon titulo="2. Consulta">{renderCampos("consulta")}</Acordeon>
 
-      {renderSeccion("Periodo y síntomas", "antecedentesMedicosPeriodo")}
-      {renderSeccion("VII. Historial de relaciones interpersonales y sexual", "relacionesInterpersonalesSexual")}
-      {renderSeccion("VIII. Hábitos, aspectos judiciales y personalidad", "habitosJudicialesPersonalidad")}
-      {renderSeccion("IX. Conducta observada", "conductaObservada")}
+        <Acordeon titulo="3. Antecedentes de la situación">
+          {renderCampos("antecedentesSituacion")}
+        </Acordeon>
 
-      <div>
-        <p className={seccionTitulo}>Citas</p>
-        <div className="border border-gray-200 rounded-lg overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="px-3 py-2 text-left font-medium text-gray-600">No.</th>
-                <th className="px-3 py-2 text-left font-medium text-gray-600">Fecha</th>
-                <th className="px-3 py-2 text-left font-medium text-gray-600">Hora</th>
-                <th className="px-3 py-2 text-left font-medium text-gray-600">Firma del paciente</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {citas.map((cita, i) => (
-                <tr key={i}>
-                  <td className="px-3 py-2 text-gray-700">{i + 1}</td>
-                  <td className="px-3 py-2">
+        <Acordeon titulo="4. Historia familiar">{renderCampos("historiaFamiliar")}</Acordeon>
+
+        <Acordeon titulo="5. Socialización">{renderCampos("socializacion")}</Acordeon>
+
+        <Acordeon titulo="6. Aspectos académicos y laborales">
+          {renderCampos("aspectosAcademicosLaborales")}
+        </Acordeon>
+
+        <Acordeon titulo="7. Antecedentes médicos y psiquiátricos">
+          <div className="space-y-8">
+            {renderCampos("antecedentesMedicosPsiquiatricos")}
+
+            <div>
+              <p className={seccionTitulo}>Marque si en su vida ha presentado:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 border border-gray-200 rounded-lg p-4">
+                {sintomasPsicologicosList.map((item) => (
+                  <label key={item.key} className="flex items-center gap-2 text-sm text-gray-700">
                     <input
-                      type="date"
-                      value={cita.fecha}
-                      onChange={(e) => handleCita(i, "fecha", e.target.value)}
-                      className="border border-gray-300 rounded px-2 py-1 text-sm"
+                      type="checkbox"
+                      checked={!!valores[`sintoma_${item.key}`]}
+                      onChange={(e) => handleValor(`sintoma_${item.key}`, e.target.checked)}
                     />
-                  </td>
-                  <td className="px-3 py-2">
-                    <input
-                      type="time"
-                      value={cita.hora}
-                      onChange={(e) => handleCita(i, "hora", e.target.value)}
-                      className="border border-gray-300 rounded px-2 py-1 text-sm"
-                    />
-                  </td>
-                  <td className="px-3 py-2">
-                    <label className="flex items-center gap-2 text-gray-700">
-                      <input
-                        type="checkbox"
-                        checked={cita.firmo}
-                        onChange={(e) => handleCita(i, "firmo", e.target.checked)}
-                      />
-                      Firmó
-                    </label>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                    {item.label}
+                  </label>
+                ))}
+              </div>
+            </div>
 
-      <div>
-        <p className={seccionTitulo}>Remisión a otra especialidad (opcional)</p>
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm text-gray-700">Remitir a:</label>
-            <select
-              value={valores.remitirNueva}
-              onChange={(e) => handleValor("remitirNueva", e.target.value)}
-              className={inputClass}
-            >
-              <option value="">No remitir</option>
-              {especialidades.map((esp) => (
-                <option key={esp} value={esp}>
-                  {esp}
-                </option>
-              ))}
-            </select>
+            <div>
+              <p className={seccionTitulo}>Periodo y síntomas</p>
+              {renderCampos("antecedentesMedicosPeriodo")}
+            </div>
           </div>
-          {valores.remitirNueva && entrevistaPsicologica.remision.map(renderCampo)}
-        </div>
+        </Acordeon>
+
+        <Acordeon titulo="8. Historial de relaciones interpersonales y sexual">
+          {renderCampos("relacionesInterpersonalesSexual")}
+        </Acordeon>
+
+        <Acordeon titulo="9. Hábitos, aspectos judiciales y personalidad">
+          {renderCampos("habitosJudicialesPersonalidad")}
+        </Acordeon>
+
+        <Acordeon titulo="10. Conducta observada">
+          {renderCampos("conductaObservada")}
+        </Acordeon>
+
+        <Acordeon titulo="11. Citas">
+          <div className="border border-gray-200 rounded-lg overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="px-3 py-2 text-left font-medium text-gray-600">No.</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-600">Fecha</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-600">Hora</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-600">
+                    Firma del paciente
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {citas.map((cita, i) => (
+                  <tr key={i}>
+                    <td className="px-3 py-2 text-gray-700">{i + 1}</td>
+                    <td className="px-3 py-2">
+                      <input
+                        type="date"
+                        value={cita.fecha}
+                        onChange={(e) => handleCita(i, "fecha", e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 text-sm"
+                      />
+                    </td>
+                    <td className="px-3 py-2">
+                      <input
+                        type="time"
+                        value={cita.hora}
+                        onChange={(e) => handleCita(i, "hora", e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 text-sm"
+                      />
+                    </td>
+                    <td className="px-3 py-2">
+                      <label className="flex items-center gap-2 text-gray-700">
+                        <input
+                          type="checkbox"
+                          checked={cita.firmo}
+                          onChange={(e) => handleCita(i, "firmo", e.target.checked)}
+                        />
+                        Firmó
+                      </label>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Acordeon>
+
+        <Acordeon titulo="12. Remisión a otra especialidad (opcional)">
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm text-gray-700">Remitir a:</label>
+              <select
+                value={valores.remitirNueva}
+                onChange={(e) => handleValor("remitirNueva", e.target.value)}
+                className={inputClass}
+              >
+                <option value="">No remitir</option>
+                {especialidades.map((esp) => (
+                  <option key={esp} value={esp}>
+                    {esp}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {valores.remitirNueva && entrevistaPsicologica.remision.map(renderCampo)}
+          </div>
+        </Acordeon>
       </div>
 
-      <div className="flex items-center justify-end gap-4">
-        {guardado && <span className="text-sm text-green-600 font-medium">✓ Cambios guardados</span>}
-        <button
-          onClick={handleGuardar}
-          className="bg-gray-900 text-white px-5 py-2 rounded-lg font-medium hover:bg-gray-800 transition"
-        >
-          {valores.remitirNueva ? "Guardar y remitir" : "Guardar cambios"}
-        </button>
-      </div>
+      <button
+        onClick={handleGuardar}
+        className="w-full bg-blue-700 text-white font-medium py-3 rounded-lg hover:bg-blue-800 transition"
+      >
+        {valores.remitirNueva ? "Guardar y remitir" : "Guardar Evaluación"}
+      </button>
     </div>
   );
 }
