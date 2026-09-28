@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 
 function FormularioMedicinaGeneralParte2() {
-  const [datosGineco, setDatosGineco] = useState({
-    actividadSexual: '', inicioVidaSexual: '', numParejas: '', practicasRiesgo: '',
-    menarquia: '', fumDia: '', fumMes: '', fumAno: '', cicloDuracion: '',
-    cicloPeriodicidad: '', cicloCaracteristicas: '', citologiaOpcion: '', citologiaFecha: '', citologiaResultado: '',
-    planificacionOpcion: '', metodoElegido: '', observacionesGineco: '',
-    hgoG: '', hgoP: '', hgoA: '', hgoC: '', hgoHv: '', hgoHm: '',
-    ultimoEmbarazoDia: '', ultimoEmbarazoMes: '', ultimoEmbarazoAno: '', ultimoEmbarazoTermino: '',
-    observacionesObstetricos: ''
+  const [consulta, setConsulta] = useState({
+    fechaHora: '',
+    edad: '',
+    peso: '',
+    talla: '',
+    temperatura: '',
+    presionArterial: '',
+    pulso: '',
+    observaciones: '',
+    diagnostico: '',
+    indicaciones: '',
+    remitidoA: [],
+    citaOpcion: '',
+    fechaCita: '',
+    referidoOtroNivel: ''
   });
 
   const [examenFisico, setExamenFisico] = useState({
@@ -16,13 +23,21 @@ function FormularioMedicinaGeneralParte2() {
     bocaGarganta: 'Normal', mamas: 'Normal', pulmones: 'Normal', corazon: 'Normal',
     sistDigestivo: 'Normal', genitourinario: 'Normal', muscEsqueletico: 'Normal',
     extremidades: 'Normal', ganglios: 'Normal', piel: 'Normal',
-    observacionesFisico: '', impresionDiagnostica: '', indicaciones: '',
-    remitidoA: '', citaOpcion: '', fechaCita: ''
+    observacionesFisico: ''
   });
 
-  const handleGinecoChange = (e) => {
+  const handleConsultaChange = (e) => {
     const { name, value } = e.target;
-    setDatosGineco({ ...datosGineco, [name]: value });
+    setConsulta({ ...consulta, [name]: value });
+  };
+
+  const handleRemitidoChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setConsulta({ ...consulta, remitidoA: [...consulta.remitidoA, value] });
+    } else {
+      setConsulta({ ...consulta, remitidoA: consulta.remitidoA.filter(item => item !== value) });
+    }
   };
 
   const handleFisicoChange = (e) => {
@@ -32,8 +47,8 @@ function FormularioMedicinaGeneralParte2() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Datos Parte 2 Medicina General:", { datosGineco, examenFisico });
-    alert("Segunda parte de Medicina General guardada correctamente.");
+    console.log("Consulta de Medicina General guardada:", { consulta, examenFisico });
+    alert("Consulta registrada exitosamente.");
   };
 
   const sistemasFisicos = [
@@ -54,107 +69,61 @@ function FormularioMedicinaGeneralParte2() {
   ];
 
   return (
-    <div className="w-full max-w-full mx-auto p-4 bg-white rounded-lg border border-gray-300 mt-4 text-sm">
-      <h3 className="text-center font-bold text-base mb-4" style={{ color: '#004A87' }}>HISTORIA CLÍNICA - MEDICINA GENERAL (PARTE 2)</h3>
+    <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg border border-gray-300 shadow-sm text-sm font-sans">
+      <h3 className="text-center font-bold text-base mb-4 text-[#004A87]">
+        SEGUIMIENTO Y EXAMEN FÍSICO - MEDICINA GENERAL
+      </h3>
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
         
-        {/* ACTIVIDAD SEXUAL Y REPRODUCTIVA */}
-        <fieldset className="mb-4 p-3 border border-gray-300 rounded-md bg-white">
-          <legend className="font-bold px-2 text-xs" style={{ color: '#004A87' }}>ACTIVIDAD SEXUAL Y REPRODUCTIVA</legend>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-2 text-xs">
-            <div className="p-2 border rounded">
-              <span className="font-semibold block mb-1">Actividad Sexual:</span>
-              <label className="mr-2"><input type="radio" name="actividadSexual" value="Si" checked={datosGineco.actividadSexual === 'Si'} onChange={handleGinecoChange} /> Sí</label>
-              <label><input type="radio" name="actividadSexual" value="No" checked={datosGineco.actividadSexual === 'No'} onChange={handleGinecoChange} /> No</label>
-            </div>
-            <div>
-              <label className="block font-semibold">Inicio de Vida Sexual:</label>
-              <input type="text" name="inicioVidaSexual" value={datosGineco.inicioVidaSexual} onChange={handleGinecoChange} placeholder="Edad..." className="w-full p-2 border rounded text-xs" />
-            </div>
-            <div>
-              <label className="block font-semibold">N° de Parejas Sexuales:</label>
-              <input type="text" name="numParejas" value={datosGineco.numParejas} onChange={handleGinecoChange} placeholder="Cantidad..." className="w-full p-2 border rounded text-xs" />
-            </div>
-            <div>
-              <label className="block font-semibold">Prácticas de Riesgo:</label>
-              <input type="text" name="practicasRiesgo" value={datosGineco.practicasRiesgo} onChange={handleGinecoChange} placeholder="Describir..." className="w-full p-2 border rounded text-xs" />
-            </div>
-          </div>
-        </fieldset>
-
-        {/* ANTECEDENTES GINECOLÓGICOS */}
-        <fieldset className="mb-4 p-3 border border-gray-300 rounded-md bg-gray-50">
-          <legend className="font-bold px-2 text-xs" style={{ color: '#004A87' }}>ANTECEDENTES GINECOLÓGICOS (Únicamente paciente femenino)</legend>
+        {/* BLOQUE DE CONTROL / SIGNOS VITALES POR CONSULTA (Imagen 2) */}
+        <fieldset className="p-3 border border-gray-300 rounded-md bg-gray-50">
+          <legend className="font-bold px-2 text-xs text-[#004A87]">DATOS DE LA CONSULTA Y SIGNOS VITALES</legend>
           
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-3 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-7 gap-2 mb-3 text-xs">
             <div>
-              <label className="block font-semibold">Menarquia a:</label>
-              <input type="text" name="menarquia" value={datosGineco.menarquia} onChange={handleGinecoChange} className="w-full p-1 border rounded bg-white" />
+              <label className="block font-semibold mb-1">Fecha y Hora:</label>
+              <input type="datetime-local" name="fechaHora" value={consulta.fechaHora} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white text-[10px]" />
             </div>
-            <div className="col-span-2 border p-1 rounded bg-white">
-              <label className="block font-semibold text-center">FUM</label>
-              <div className="grid grid-cols-3 gap-1">
-                <input type="text" name="fumDia" placeholder="Día" value={datosGineco.fumDia} onChange={handleGinecoChange} className="p-1 border rounded text-center" />
-                <input type="text" name="fumMes" placeholder="Mes" value={datosGineco.fumMes} onChange={handleGinecoChange} className="p-1 border rounded text-center" />
-                <input type="text" name="fumAno" placeholder="Año" value={datosGineco.fumAno} onChange={handleGinecoChange} className="p-1 border rounded text-center" />
-              </div>
+            <div>
+              <label className="block font-semibold mb-1">Edad:</label>
+              <input type="text" name="edad" value={consulta.edad} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white" />
             </div>
-            <div className="border p-1 rounded bg-white">
-              <label className="block font-semibold">Citología:</label>
-              <label className="block"><input type="radio" name="citologiaOpcion" value="No" checked={datosGineco.citologiaOpcion === 'No'} onChange={handleGinecoChange} /> No</label>
-              <label className="block"><input type="radio" name="citologiaOpcion" value="Si" checked={datosGineco.citologiaOpcion === 'Si'} onChange={handleGinecoChange} /> Sí, Fecha:</label>
-              <input type="text" name="citologiaFecha" placeholder="Fecha y Resultado" value={datosGineco.citologiaFecha} onChange={handleGinecoChange} className="w-full p-1 border rounded mt-1" />
+            <div>
+              <label className="block font-semibold mb-1">Peso (Kg):</label>
+              <input type="text" name="peso" value={consulta.peso} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white" />
+            </div>
+            <div>
+              <label className="block font-semibold mb-1">Talla (Cm):</label>
+              <input type="text" name="talla" value={consulta.talla} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white" />
+            </div>
+            <div>
+              <label className="block font-semibold mb-1">Temp (°C):</label>
+              <input type="text" name="temperatura" value={consulta.temperatura} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white" />
+            </div>
+            <div>
+              <label className="block font-semibold mb-1">P. Arterial:</label>
+              <input type="text" name="presionArterial" value={consulta.presionArterial} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white" />
+            </div>
+            <div>
+              <label className="block font-semibold mb-1">Pulso:</label>
+              <input type="text" name="pulso" value={consulta.pulso} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white" />
             </div>
           </div>
 
-          {/* Planificación Familiar */}
-          <div className="p-2 border rounded bg-white text-xs mb-2">
-            <span className="font-semibold block mb-1">PLANIFICACIÓN FAMILIAR ACTUALMENTE:</span>
-            <div className="flex flex-wrap gap-4">
-              <label><input type="radio" name="planificacionOpcion" value="Si" checked={datosGineco.planificacionOpcion === 'Si'} onChange={handleGinecoChange} /> Sí</label>
-              <label><input type="radio" name="planificacionOpcion" value="No" checked={datosGineco.planificacionOpcion === 'No'} onChange={handleGinecoChange} /> No</label>
-              {['DIU', 'Condón', 'Pastillas', 'Implante', 'Inyección Trimestral', 'Inyección Mensual', 'Ritmo', 'Esterilización'].map((metodo) => (
-                <label key={metodo} className="cursor-pointer">
-                  <input type="checkbox" name="metodoElegido" value={metodo} className="mr-1" /> {metodo}
-                </label>
-              ))}
-            </div>
-          </div>
-          <div>
-            <label className="block font-semibold text-xs">Observaciones Ginecológicas:</label>
-            <input type="text" name="observacionesGineco" value={datosGineco.observacionesGineco} onChange={handleGinecoChange} className="w-full p-1 border rounded bg-white text-xs" />
+          <div className="mb-2">
+            <label className="block font-semibold text-xs mb-1">Observaciones:</label>
+            <input type="text" name="observaciones" value={consulta.observaciones} onChange={handleConsultaChange} className="w-full p-1 border rounded bg-white text-xs" />
           </div>
         </fieldset>
 
-        {/* ANTECEDENTES OBSTÉTRICOS */}
-        <fieldset className="mb-4 p-3 border border-gray-300 rounded-md bg-white">
-          <legend className="font-bold px-2 text-xs" style={{ color: '#004A87' }}>ANTECEDENTES OBSTÉTRICOS (HGO)</legend>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-2">
-            <div className="flex gap-2 items-center">
-              <span>HGO:</span>
-              <input type="text" name="hgoG" placeholder="G" value={datosGineco.hgoG} onChange={handleGinecoChange} className="w-10 p-1 border rounded text-center" />
-              <input type="text" name="hgoP" placeholder="P" value={datosGineco.hgoP} onChange={handleGinecoChange} className="w-10 p-1 border rounded text-center" />
-              <input type="text" name="hgoA" placeholder="A" value={datosGineco.hgoA} onChange={handleGinecoChange} className="w-10 p-1 border rounded text-center" />
-              <input type="text" name="hgoC" placeholder="C" value={datosGineco.hgoC} onChange={handleGinecoChange} className="w-10 p-1 border rounded text-center" />
-              <input type="text" name="hgoHv" placeholder="HV" value={datosGineco.hgoHv} onChange={handleGinecoChange} className="w-10 p-1 border rounded text-center" />
-              <input type="text" name="hgoHm" placeholder="HM" value={datosGineco.hgoHm} onChange={handleGinecoChange} className="w-10 p-1 border rounded text-center" />
-            </div>
-            <div className="flex gap-2 items-center">
-              <input type="text" name="ultimoEmbarazoTermino" placeholder="Cómo terminó último embarazo" value={datosGineco.ultimoEmbarazoTermino} onChange={handleGinecoChange} className="w-full p-1 border rounded" />
-            </div>
-          </div>
-          <div>
-            <label className="block font-semibold text-xs">Observaciones Obstétricas:</label>
-            <input type="text" name="observacionesObstetricos" value={datosGineco.observacionesObstetricos} onChange={handleGinecoChange} className="w-full p-1 border rounded text-xs" />
-          </div>
-        </fieldset>
-
-        {/* EXAMEN FÍSICO */}
-        <fieldset className="mb-4 p-3 border border-gray-300 rounded-md bg-white">
-          <legend className="font-bold px-2 text-xs" style={{ color: '#004A87' }}>EXAMEN FÍSICO (En caso de anormalidad describa precedida por el número)</legend>
+        {/* EXAMEN FÍSICO DE 14 PUNTOS (Imagen 1) */}
+        <fieldset className="p-3 border border-gray-300 rounded-md bg-white">
+          <legend className="font-bold px-2 text-xs text-[#004A87]">
+            EXAMEN FÍSICO (En caso de anormalidad describa en observaciones precedida por el número)[cite: 7]
+          </legend>
           
-          <div className="grid grid-cols-2 sm:grid-cols-7 gap-2 text-xs mt-2">
+          <div className="grid grid-cols-2 sm:grid-cols-7 gap-2 text-xs my-2">
             {sistemasFisicos.map((sys) => (
               <div key={sys.key} className="border p-2 rounded bg-gray-50">
                 <span className="font-bold block mb-1">{sys.label}</span>
@@ -165,51 +134,53 @@ function FormularioMedicinaGeneralParte2() {
           </div>
 
           <div className="mt-3">
-            <label className="block font-semibold text-xs">Observaciones del Examen Físico:</label>
-            <textarea name="observacionesFisico" rows="2" value={examenFisico.observacionesFisico} onChange={handleFisicoChange} className="w-full p-2 border rounded text-xs" />
+            <label className="block font-semibold text-xs mb-1">Observaciones del Examen Físico[cite: 7]:</label>
+            <textarea name="observacionesFisico" rows="3" value={examenFisico.observacionesFisico} onChange={handleFisicoChange} placeholder="Ej: 2. Ojos: irritación leve..." className="w-full p-2 border rounded text-xs" />
           </div>
         </fieldset>
 
-        {/* DIAGNÓSTICO E INDICACIONES */}
-        <fieldset className="mb-4 p-3 border border-gray-300 rounded-md bg-white">
-          <legend className="font-bold px-2 text-xs" style={{ color: '#004A87' }}>DIAGNÓSTICO E INDICACIONES</legend>
-          <div className="mb-2">
-            <label className="block font-semibold text-xs">Impresión Diagnóstica:</label>
-            <textarea name="impresionDiagnostica" rows="2" value={examenFisico.impresionDiagnostica} onChange={handleFisicoChange} className="w-full p-2 border rounded text-xs" />
+        {/* DIAGNÓSTICO E INDICACIONES (Imágenes 1 y 2) */}
+        <fieldset className="p-3 border border-gray-300 rounded-md bg-white space-y-3">
+          <legend className="font-bold px-2 text-xs text-[#004A87]">DIAGNÓSTICO E INDICACIONES</legend>
+          <div>
+            <label className="block font-semibold text-xs mb-1">Impresión Diagnóstica[cite: 7]:</label>
+            <textarea name="diagnostico" rows="3" value={consulta.diagnostico} onChange={handleConsultaChange} placeholder="Escriba el diagnóstico..." className="w-full p-2 border rounded text-xs" required />
           </div>
           <div>
-            <label className="block font-semibold text-xs">Indicaciones:</label>
-            <textarea name="indicaciones" rows="2" value={examenFisico.indicaciones} onChange={handleFisicoChange} className="w-full p-2 border rounded text-xs" />
+            <label className="block font-semibold text-xs mb-1">Indicaciones[cite: 7]:</label>
+            <textarea name="indicaciones" rows="3" value={consulta.indicaciones} onChange={handleConsultaChange} placeholder="Escriba las indicaciones o receta..." className="w-full p-2 border rounded text-xs" />
           </div>
         </fieldset>
 
-        {/* REMISIÓN Y CIERRE */}
-        <fieldset className="mb-4 p-3 border border-gray-300 rounded-md bg-gray-50 text-xs">
-          <legend className="font-bold px-2 text-xs" style={{ color: '#004A87' }}>REMISIÓN Y CITAS</legend>
-          <div className="flex flex-wrap gap-4 items-center mb-3">
-            <span className="font-semibold">Remitido a:</span>
-            {['Psicología', 'Nutrición', 'Odontología', 'Terapia funcional', 'CATFA', 'Trabajo Social'].slice(0, 5).map((area) => (
+        {/* REMISIÓN Y CITAS (Imagen 2) */}
+        <fieldset className="p-3 border border-gray-300 rounded-md bg-gray-50 text-xs space-y-3">
+          <legend className="font-bold px-2 text-xs text-[#004A87]">REMISIÓN Y CITAS</legend>
+          
+          <div className="flex flex-wrap gap-4 items-center">
+            <span className="font-semibold">Remitido a[cite: 8]:</span>
+            {['Psicología', 'Nutrición', 'Odontología', 'Terapia funcional', 'Trabajo Social'].map((area) => (
               <label key={area} className="cursor-pointer">
-                <input type="checkbox" name="remitidoA" value={area} className="mr-1" /> {area}
+                <input type="checkbox" name="remitidoA" value={area} onChange={handleRemitidoChange} className="mr-1" /> {area}
               </label>
             ))}
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex items-center gap-4 p-2 bg-white border rounded">
-              <span className="font-semibold">Cita:</span>
-              <label><input type="radio" name="citaOpcion" value="Si" /> Sí</label>
-              <label><input type="radio" name="citaOpcion" value="No" /> No</label>
-              <input type="date" name="fechaCita" className="p-1 border rounded text-xs" />
+            <div className="flex items-center gap-3 p-2 bg-white border rounded">
+              <span className="font-semibold">Cita[cite: 8]:</span>
+              <label><input type="radio" name="citaOpcion" value="Si" onChange={handleConsultaChange} /> Sí</label>
+              <label><input type="radio" name="citaOpcion" value="No" onChange={handleConsultaChange} /> No</label>
+              <input type="date" name="fechaCita" value={consulta.fechaCita} onChange={handleConsultaChange} className="p-1 border rounded text-xs" />
             </div>
             <div className="p-2 bg-white border rounded">
-              <span className="font-semibold block">Referido a otro nivel:</span>
-              <input type="text" placeholder="Detalle..." className="w-full p-1 border-0 border-b text-xs" />
+              <span className="font-semibold block mb-1">Referido a otro nivel[cite: 8]:</span>
+              <input type="text" name="referidoOtroNivel" value={consulta.referidoOtroNivel} onChange={handleConsultaChange} placeholder="Detalle..." className="w-full p-1 border rounded text-xs" />
             </div>
           </div>
         </fieldset>
 
-        <button type="submit" className="px-4 py-2 text-white font-bold rounded shadow transition text-xs" style={{ backgroundColor: '#004A87' }}>
-          Guardar Parte 2 Medicina General
+        <button type="submit" className="px-4 py-2 text-white font-bold rounded shadow transition text-xs bg-[#004A87] hover:bg-[#003366]">
+          Guardar Registro de Consulta Médica
         </button>
       </form>
     </div>
