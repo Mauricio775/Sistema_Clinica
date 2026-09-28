@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { pacientes } from "../data/mockPacientes";
+import { useExpedientes } from "../hooks/useExpedientes";
 import StepTabs from "../components/archivo/StepTabs";
 import BusquedaStep from "../components/archivo/BusquedaStep";
 import ResultadoStep from "../components/archivo/ResultadoStep";
@@ -7,6 +8,7 @@ import NuevoExpedienteStep from "../components/archivo/NuevoExpedienteStep";
 import ConfirmacionStep from "../components/archivo/ConfirmacionStep";
 
 function RecepcionArchivo() {
+  const { agregarExpediente } = useExpedientes();
   const [pasoActual, setPasoActual] = useState(1);
   const [maxPasoAlcanzado, setMaxPasoAlcanzado] = useState(1);
   const [pacienteEncontrado, setPacienteEncontrado] = useState(null);
@@ -20,6 +22,11 @@ function RecepcionArchivo() {
     const encontrado = pacientes.find((p) => p.cuenta === numeroCuenta);
     setPacienteEncontrado(encontrado || null);
     irAPaso(2);
+  };
+
+  const guardarNuevoExpediente = (datos) => {
+    agregarExpediente(datos);
+    irAPaso(4);
   };
 
   const reiniciar = () => {
@@ -43,7 +50,7 @@ function RecepcionArchivo() {
       )}
 
       {pasoActual === 3 && (
-        <NuevoExpedienteStep onGuardar={() => irAPaso(4)} />
+        <NuevoExpedienteStep onGuardar={guardarNuevoExpediente} />
       )}
 
       {pasoActual === 4 && <ConfirmacionStep onReiniciar={reiniciar} />}

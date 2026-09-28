@@ -17,18 +17,18 @@ const procedimientosList = [
   "Ejer. Propioceptivo",
 ];
 
-const initialRegistro = {
+const crearRegistroInicial = (terapeuta) => ({
   fecha: "",
-  terapeuta: "",
+  terapeuta,
   procedimientos: procedimientosList.reduce(
     (acc, p) => ({ ...acc, [p]: false }),
     {}
   ),
   observaciones: "",
-};
+});
 
-function HojaProcedimientos() {
-  const [registro, setRegistro] = useState(initialRegistro);
+function HojaProcedimientos({ terapeuta = "" }) {
+  const [registro, setRegistro] = useState(() => crearRegistroInicial(terapeuta));
   const [registros, setRegistros] = useState([]);
 
   const handleChange = (campo, valor) =>
@@ -46,7 +46,7 @@ function HojaProcedimientos() {
   const agregarRegistro = () => {
     if (!registro.fecha) return;
     setRegistros((prev) => [...prev, registro]);
-    setRegistro(initialRegistro);
+    setRegistro(crearRegistroInicial(terapeuta));
   };
 
   return (
@@ -65,9 +65,9 @@ function HojaProcedimientos() {
           <label className="text-sm text-gray-700">Nombre del terapeuta</label>
           <input
             type="text"
-            value={registro.terapeuta}
-            onChange={(e) => handleChange("terapeuta", e.target.value)}
-            className={inputClass}
+            value={terapeuta}
+            readOnly
+            className={`${inputClass} bg-gray-50 text-gray-600`}
           />
         </div>
       </div>

@@ -35,7 +35,7 @@ function ListaGinecologia() {
           >
             <p className="font-medium text-gray-800">{exp.nombre}</p>
             <p className="text-sm text-gray-500">
-              {exp.cuenta} · {exp.carrera}
+              {exp.cuenta}
             </p>
           </button>
         ))}

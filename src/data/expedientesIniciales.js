@@ -34,6 +34,7 @@ const camposVacios = {
   practicasSexualesRiesgo: "",
   diagnostico: "",
   remitirA: "",
+  solicitudesTratamiento: [],
 };
 
 const expedientesBase = [
@@ -41,21 +42,46 @@ const expedientesBase = [
     cuenta: "20231002365",
     nombre: "Angel Mauricio Valladares",
     tipo: "Estudiante",
-    carrera: "Ingeniería en Sistemas",
     visita: "Subsiguiente",
+    primerApellido: "Valladares",
+    segundoApellido: "Reyes",
+    nombres: "Angel Mauricio",
+    numeroCuenta: "20231002365",
+    numeroIdentidad: "0801-2004-01893",
+    direccion: "Col. Las Colinas, Tegucigalpa",
+    lugarProcedencia: "Tegucigalpa",
+    fechaNacimiento: "2004-08-30",
+    sexo: "Hombre",
+    estadoCivil: "Soltero",
+    telefono: "9955-1122",
+    emergenciaNombre: "Rosa Reyes",
+    emergenciaTelefono: "9944-5566",
+    seguroMedico: "No",
   },
   {
     cuenta: "20241005521",
     nombre: "Daniela Sofía Martínez",
     tipo: "Estudiante",
-    carrera: "Medicina",
     visita: "Primera vez",
+    primerApellido: "Martínez",
+    segundoApellido: "Ortiz",
+    nombres: "Daniela Sofía",
+    numeroCuenta: "20241005521",
+    numeroIdentidad: "0801-2005-07714",
+    direccion: "Res. El Trapiche, Tegucigalpa",
+    lugarProcedencia: "Comayagüela",
+    fechaNacimiento: "2005-11-03",
+    sexo: "Mujer",
+    estadoCivil: "Soltero",
+    telefono: "9933-4477",
+    emergenciaNombre: "Marta Ortiz",
+    emergenciaTelefono: "9922-8811",
+    seguroMedico: "Privado",
   },
   {
     cuenta: "20221003083",
     nombre: "Jade Yuliana Miralda Matute",
     tipo: "Estudiante",
-    carrera: "Ingeniería Industrial",
     visita: "Primera vez",
     primerApellido: "Miralda",
     segundoApellido: "Matute",
@@ -118,15 +144,11 @@ const expedientesBase = [
     inicioVidaSexual: "19 años",
     numeroParejasSexuales: "1",
     practicasSexualesRiesgo: "Ninguna reportada.",
-    diagnostico:
-      "Probable lesión meniscal de rodilla derecha, se remite para valoración y manejo fisioterapéutico.",
-    remitirA: "Fisioterapia",
   },
   {
     cuenta: "20231005678",
     nombre: "María Fernanda López Cálix",
     tipo: "Estudiante",
-    carrera: "Ingeniería en Sistemas",
     visita: "Primera vez",
     primerApellido: "López",
     segundoApellido: "Cálix",
@@ -194,6 +216,21 @@ const expedientesBase = [
     remitirA: "Nutrición",
   },
 ];
+
+export const crearExpediente = ({ tipoPaciente, ...datos }) => {
+  const nombre = [datos.nombres, datos.primerApellido, datos.segundoApellido]
+    .filter(Boolean)
+    .join(" ");
+  const cuenta = datos.numeroCuenta || datos.numeroIdentidad;
+  return {
+    ...camposVacios,
+    ...datos,
+    cuenta,
+    nombre,
+    tipo: tipoPaciente,
+    visita: "Primera vez",
+  };
+};
 
 export const expedientesIniciales = expedientesBase.map((exp) => ({
   ...camposVacios,

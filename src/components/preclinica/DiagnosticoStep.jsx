@@ -1,5 +1,6 @@
 import { useState } from "react";
 import EncabezadoExpediente from "./EncabezadoExpediente";
+import RemisionMedica from "../RemisionMedica";
 
 function DiagnosticoStep({ paciente, onGuardar, onAtras }) {
   const [form, setForm] = useState(() => ({
@@ -21,37 +22,17 @@ function DiagnosticoStep({ paciente, onGuardar, onAtras }) {
       <h2 className="font-bold text-gray-800 text-lg">Diagnóstico</h2>
       <EncabezadoExpediente paciente={paciente} />
 
-      <div className="mb-4">
-        <label className="text-sm text-gray-600 font-medium">Diagnóstico</label>
-        <textarea
-          value={form.diagnostico}
-          onChange={(e) => handleChange("diagnostico", e.target.value)}
-          rows={4}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="mb-6">
-        <label className="text-sm text-gray-600 font-medium">Remitir a:</label>
-        <select
-          value={form.remitirA}
-          onChange={(e) => handleChange("remitirA", e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Seleccione...</option>
-          <option>Nutrición</option>
-          <option>Ginecología</option>
-          <option>Fisioterapia</option>
-          <option>Medicina General</option>
-          <option>Psicología</option>
-          <option>Odontología</option>
-        </select>
-      </div>
+      <RemisionMedica
+        etiquetaDiagnostico="Diagnóstico de enfermería"
+        diagnostico={form.diagnostico}
+        remitirA={form.remitirA}
+        onChange={handleChange}
+      />
 
       <div className="flex items-center justify-between">
         <button
           type="button"
-          onClick={onAtras}
+          onClick={() => onAtras({ diagnostico: form.diagnostico })}
           className="border border-gray-300 text-gray-700 px-5 py-2 rounded-lg font-medium hover:bg-gray-50 transition"
         >
           Atrás
@@ -60,7 +41,7 @@ function DiagnosticoStep({ paciente, onGuardar, onAtras }) {
           onClick={handleGuardar}
           className="bg-gray-900 text-white px-5 py-2 rounded-lg font-medium hover:bg-gray-800 transition"
         >
-          Guardar y remitir
+          Remitir
         </button>
       </div>
     </div>

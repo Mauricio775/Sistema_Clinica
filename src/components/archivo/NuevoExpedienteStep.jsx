@@ -16,6 +16,7 @@ function NuevoExpedienteStep({ onGuardar }) {
   };
 
   const handleGuardar = () => {
+    if (!form.nombres.trim() || !form.numeroIdentidad.trim()) return;
     onGuardar(form);
   };
 

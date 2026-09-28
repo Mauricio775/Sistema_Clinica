@@ -1,4 +1,5 @@
 import EncabezadoExpediente from "./EncabezadoExpediente";
+import DatosArchivo from "./DatosArchivo";
 import FichaNuevoPaciente from "./FichaNuevoPaciente";
 import SignosVitalesSubsiguiente from "./SignosVitalesSubsiguiente";
 
@@ -9,6 +10,7 @@ function CapturaDatosStep({ paciente, onGuardar, onAtras }) {
     <div className="bg-white rounded-xl shadow-sm p-6">
       <h2 className="font-bold text-gray-800 text-lg">Captura de datos</h2>
       <EncabezadoExpediente paciente={paciente} />
+      <DatosArchivo paciente={paciente} />
 
       {esPrimeraVez ? (
         <FichaNuevoPaciente

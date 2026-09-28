@@ -20,9 +20,7 @@ function ListaEsperaStep({ expedientes, onSeleccionar }) {
               className="flex items-center justify-between px-4 py-3"
             >
               <div>
-                <p className="font-medium text-gray-800 text-sm">
-                  {exp.nombre} {exp.cuenta}
-                </p>
+                <p className="font-medium text-gray-800 text-sm">{exp.nombre}</p>
                 <p className="text-xs text-gray-500">{exp.diagnostico}</p>
               </div>
               <button

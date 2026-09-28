@@ -42,10 +42,6 @@ function ResultadoStep({ paciente, onEnviar, onCrearNuevo }) {
           <span className="font-medium text-gray-800">{paciente.tipo}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-500">Carrera</span>
-          <span className="font-medium text-gray-800">{paciente.carrera}</span>
-        </div>
-        <div className="flex justify-between text-sm">
           <span className="text-gray-500">Visita</span>
           <span className="font-medium text-gray-800">{paciente.visita}</span>
         </div>

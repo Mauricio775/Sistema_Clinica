@@ -34,6 +34,9 @@ function FichaPreclinicaCompleta({ paciente, onVolver }) {
         </div>
         <div className="flex items-center gap-3">
           <span className="text-xs font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+            {paciente.tipo}
+          </span>
+          <span className="text-xs font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
             {paciente.visita}
           </span>
           <button
@@ -46,38 +49,36 @@ function FichaPreclinicaCompleta({ paciente, onVolver }) {
       </div>
 
       <div className="space-y-6">
-        {esPrimeraVez && (
-          <div>
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">
-              Datos personales
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 rounded-lg p-4">
-              <Campo label="Primer apellido" valor={paciente.primerApellido} />
-              <Campo label="Segundo apellido" valor={paciente.segundoApellido} />
-              <Campo label="Nombre(s)" valor={paciente.nombres} />
-              <Campo
-                label="N.° de cuenta"
-                valor={paciente.numeroCuenta || paciente.cuenta}
-              />
-              <Campo label="N.° de identidad" valor={paciente.numeroIdentidad} />
-              <Campo label="Dirección" valor={paciente.direccion} />
-              <Campo label="Procedencia" valor={paciente.lugarProcedencia} />
-              <Campo label="Fecha de nacimiento" valor={paciente.fechaNacimiento} />
-              <Campo label="Sexo" valor={paciente.sexo} />
-              <Campo label="Estado civil" valor={paciente.estadoCivil} />
-              <Campo label="Teléfono" valor={paciente.telefono} />
-              <Campo
-                label="Contacto de emergencia"
-                valor={
-                  paciente.emergenciaNombre
-                    ? `${paciente.emergenciaNombre} · ${paciente.emergenciaTelefono || "—"}`
-                    : ""
-                }
-              />
-              <Campo label="Seguro médico" valor={paciente.seguroMedico} />
-            </div>
+        <div>
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">
+            Datos personales
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 rounded-lg p-4">
+            <Campo label="Primer apellido" valor={paciente.primerApellido} />
+            <Campo label="Segundo apellido" valor={paciente.segundoApellido} />
+            <Campo label="Nombre(s)" valor={paciente.nombres} />
+            <Campo
+              label="N.° de cuenta"
+              valor={paciente.numeroCuenta}
+            />
+            <Campo label="N.° de identidad" valor={paciente.numeroIdentidad} />
+            <Campo label="Dirección" valor={paciente.direccion} />
+            <Campo label="Procedencia" valor={paciente.lugarProcedencia} />
+            <Campo label="Fecha de nacimiento" valor={paciente.fechaNacimiento} />
+            <Campo label="Sexo" valor={paciente.sexo} />
+            <Campo label="Estado civil" valor={paciente.estadoCivil} />
+            <Campo label="Teléfono" valor={paciente.telefono} />
+            <Campo
+              label="Contacto de emergencia"
+              valor={
+                paciente.emergenciaNombre
+                  ? `${paciente.emergenciaNombre} · ${paciente.emergenciaTelefono || "—"}`
+                  : ""
+              }
+            />
+            <Campo label="Seguro médico" valor={paciente.seguroMedico} />
           </div>
-        )}
+        </div>
 
         <div>
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">
@@ -176,6 +177,15 @@ function FichaPreclinicaCompleta({ paciente, onVolver }) {
             Remitido a: {paciente.remitirA || "—"}
           </p>
         </div>
+
+        {paciente.diagnosticoRemision && (
+          <div>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">
+              Remisión desde {paciente.remitidoDesde}
+            </p>
+            <p className="text-sm text-gray-700">{paciente.diagnosticoRemision}</p>
+          </div>
+        )}
       </div>
     </div>
   );

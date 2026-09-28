@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import RecepcionArchivo from "./pages/RecepcionArchivo";
 import Nutricion from "./pages/Nutricion";
 import PreClinica from "./pages/PreClinica";
+import PreClinicaTratamientos from "./pages/PreClinicaTratamientos";
 import Ginecologia from "./pages/Ginecologia";
 import Fisioterapia from "./pages/Fisioterapia";
 import MedicinaGeneral from "./pages/MedicinaGeneral";
@@ -41,6 +42,14 @@ function App() {
             element={
               <RutaProtegida rolRequerido={ROL_PRECLINICA}>
                 <PreClinica />
+              </RutaProtegida>
+            }
+          />
+          <Route
+            path="/preclinica/tratamientos"
+            element={
+              <RutaProtegida rolRequerido={ROL_PRECLINICA}>
+                <PreClinicaTratamientos />
               </RutaProtegida>
             }
           />

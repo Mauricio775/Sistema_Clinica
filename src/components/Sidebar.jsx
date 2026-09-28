@@ -9,6 +9,11 @@ const navLinkClass = ({ isActive }) =>
     isActive ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50"
   }`;
 
+const subNavLinkClass = ({ isActive }) =>
+  `text-left ml-4 px-4 py-2 rounded-lg text-sm font-medium transition ${
+    isActive ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50"
+  }`;
+
 function Sidebar() {
   const { rolActual, setRolActual } = useRol();
   const modulosPermitidos = modulos.filter((m) => m.rol === rolActual);
@@ -32,9 +37,16 @@ function Sidebar() {
           {inicio.nombre}
         </NavLink>
         {modulosPermitidos.map((m) => (
-          <NavLink key={m.ruta} to={m.ruta} className={navLinkClass}>
-            {m.nombre}
-          </NavLink>
+          <div key={m.ruta} className="flex flex-col gap-1">
+            <NavLink to={m.ruta} end={!!m.hijos} className={navLinkClass}>
+              {m.nombre}
+            </NavLink>
+            {m.hijos?.map((h) => (
+              <NavLink key={h.ruta} to={h.ruta} className={subNavLinkClass}>
+                {h.nombre}
+              </NavLink>
+            ))}
+          </div>
         ))}
       </nav>
 

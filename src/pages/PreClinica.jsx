@@ -31,6 +31,16 @@ function PreClinica() {
     irAPaso(3);
   };
 
+  const volverACaptura = (datos) => {
+    actualizarExpediente(cuentaSeleccionada, datos);
+    irAPaso(2);
+  };
+
+  const volverALista = (datos) => {
+    actualizarExpediente(cuentaSeleccionada, datos);
+    irAPaso(1);
+  };
+
   const guardarDiagnostico = (datos) => {
     actualizarExpediente(cuentaSeleccionada, datos);
     irAPaso(4);
@@ -44,7 +54,9 @@ function PreClinica() {
 
   return (
     <div className="w-full">
-      <StepTabs pasoActual={pasoActual} maxPasoAlcanzado={maxPasoAlcanzado} />
+      {pasoActual < 4 && (
+        <StepTabs pasoActual={pasoActual} maxPasoAlcanzado={maxPasoAlcanzado} />
+      )}
 
       {pasoActual === 1 && (
         <ListaExpedientesStep
@@ -57,7 +69,7 @@ function PreClinica() {
         <CapturaDatosStep
           paciente={expedienteSeleccionado}
           onGuardar={guardarCaptura}
-          onAtras={() => irAPaso(1)}
+          onAtras={volverALista}
         />
       )}
 
@@ -65,7 +77,7 @@ function PreClinica() {
         <DiagnosticoStep
           paciente={expedienteSeleccionado}
           onGuardar={guardarDiagnostico}
-          onAtras={() => irAPaso(2)}
+          onAtras={volverACaptura}
         />
       )}
 

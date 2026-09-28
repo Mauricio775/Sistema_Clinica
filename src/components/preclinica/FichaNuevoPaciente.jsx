@@ -11,7 +11,7 @@ const inputClass =
 const seccionTitulo = "text-xs font-bold text-gray-500 uppercase tracking-wide mb-3";
 
 const secciones = [
-  "Datos personales básicos",
+  "Datos personales complementarios",
   "Signos vitales y somatometría",
   "Historia de la enfermedad actual (HEA)",
   "Antecedentes familiares",
@@ -21,20 +21,14 @@ const secciones = [
 ];
 
 const initialForm = {
-  primerApellido: "",
-  segundoApellido: "",
-  nombres: "",
   numeroCuenta: "",
-  numeroIdentidad: "",
   direccion: "",
   lugarProcedencia: "",
-  fechaNacimiento: "",
   sexo: "",
   estadoCivil: "",
   telefono: "",
   emergenciaNombre: "",
   emergenciaTelefono: "",
-  seguroMedico: "",
   fechaHora: "",
   edad: "",
   peso: "",
@@ -99,7 +93,7 @@ function FichaNuevoPaciente({ paciente, onGuardar, onAtras }) {
 
   const handleAtras = () => {
     if (pasoInterno === 0) {
-      onAtras();
+      onAtras(form);
       return;
     }
     setPasoInterno((prev) => prev - 1);
@@ -122,37 +116,8 @@ function FichaNuevoPaciente({ paciente, onGuardar, onAtras }) {
 
       {pasoInterno === 0 && (
         <section>
-          <p className={seccionTitulo}>Datos personales básicos</p>
+          <p className={seccionTitulo}>Datos personales complementarios</p>
           <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label className="text-sm text-gray-700">Primer apellido</label>
-              <input
-                type="text"
-                value={form.primerApellido}
-                onChange={(e) => handleChange("primerApellido", e.target.value)}
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className="text-sm text-gray-700">Segundo apellido</label>
-              <input
-                type="text"
-                value={form.segundoApellido}
-                onChange={(e) => handleChange("segundoApellido", e.target.value)}
-                className={inputClass}
-              />
-            </div>
-
-            <div className="col-span-2">
-              <label className="text-sm text-gray-700">Nombre(s)</label>
-              <input
-                type="text"
-                value={form.nombres}
-                onChange={(e) => handleChange("nombres", e.target.value)}
-                className={inputClass}
-              />
-            </div>
-
             <div>
               <label className="text-sm text-gray-700">N.° de cuenta</label>
               <input
@@ -163,11 +128,11 @@ function FichaNuevoPaciente({ paciente, onGuardar, onAtras }) {
               />
             </div>
             <div>
-              <label className="text-sm text-gray-700">N.° de identidad</label>
+              <label className="text-sm text-gray-700">N.° de teléfono</label>
               <input
                 type="text"
-                value={form.numeroIdentidad}
-                onChange={(e) => handleChange("numeroIdentidad", e.target.value)}
+                value={form.telefono}
+                onChange={(e) => handleChange("telefono", e.target.value)}
                 className={inputClass}
               />
             </div>
@@ -192,13 +157,19 @@ function FichaNuevoPaciente({ paciente, onGuardar, onAtras }) {
               />
             </div>
             <div>
-              <label className="text-sm text-gray-700">Fecha de nacimiento</label>
-              <input
-                type="date"
-                value={form.fechaNacimiento}
-                onChange={(e) => handleChange("fechaNacimiento", e.target.value)}
+              <label className="text-sm text-gray-700">Estado civil</label>
+              <select
+                value={form.estadoCivil}
+                onChange={(e) => handleChange("estadoCivil", e.target.value)}
                 className={inputClass}
-              />
+              >
+                <option value="">Seleccione...</option>
+                <option>Soltero</option>
+                <option>Unión libre</option>
+                <option>Casado</option>
+                <option>Divorciado</option>
+                <option>Viudo</option>
+              </select>
             </div>
 
             <div>
@@ -218,31 +189,8 @@ function FichaNuevoPaciente({ paciente, onGuardar, onAtras }) {
                 ))}
               </div>
             </div>
-            <div>
-              <label className="text-sm text-gray-700">Estado civil</label>
-              <select
-                value={form.estadoCivil}
-                onChange={(e) => handleChange("estadoCivil", e.target.value)}
-                className={inputClass}
-              >
-                <option value="">Seleccione...</option>
-                <option>Soltero</option>
-                <option>Unión libre</option>
-                <option>Casado</option>
-                <option>Divorciado</option>
-                <option>Viudo</option>
-              </select>
-            </div>
+            <div />
 
-            <div>
-              <label className="text-sm text-gray-700">N.° de teléfono</label>
-              <input
-                type="text"
-                value={form.telefono}
-                onChange={(e) => handleChange("telefono", e.target.value)}
-                className={inputClass}
-              />
-            </div>
             <div>
               <label className="text-sm text-gray-700">
                 En caso de emergencia llamar a (nombre)
@@ -254,7 +202,6 @@ function FichaNuevoPaciente({ paciente, onGuardar, onAtras }) {
                 className={inputClass}
               />
             </div>
-
             <div>
               <label className="text-sm text-gray-700">Teléfono de emergencia</label>
               <input
@@ -263,25 +210,6 @@ function FichaNuevoPaciente({ paciente, onGuardar, onAtras }) {
                 onChange={(e) => handleChange("emergenciaTelefono", e.target.value)}
                 className={inputClass}
               />
-            </div>
-            <div>
-              <label className="text-sm text-gray-700 block mb-1">
-                Cuenta con seguro médico
-              </label>
-              <div className="flex gap-4 mt-2">
-                {["Privado", "IHSS", "No"].map((op) => (
-                  <label key={op} className="flex items-center gap-2 text-sm text-gray-600">
-                    <input
-                      type="radio"
-                      name="seguroMedico"
-                      checked={form.seguroMedico === op}
-                      onChange={() => handleChange("seguroMedico", op)}
-                      className="accent-[rgb(68,45,184)]"
-                    />
-                    {op}
-                  </label>
-                ))}
-              </div>
             </div>
           </div>
         </section>
