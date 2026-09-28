@@ -19,7 +19,7 @@ function ListaEsperaStep({ expedientes, onSeleccionar }) {
             >
               <div>
                 <p className="font-medium text-gray-800 text-sm">
-                  {exp.nombre} {exp.cuenta}
+                  {exp.nombre} 
                 </p>
                 <p className="text-xs text-gray-500">{exp.diagnostico}</p>
               </div>

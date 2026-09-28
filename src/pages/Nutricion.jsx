@@ -4,6 +4,8 @@ import ListaEsperaStep from "../components/Nutricion/ListaEsperaStep";
 import FichaPreclinicaCompleta from "../components/Nutricion/FichaPreclinicaCompleta";
 import EvaluacionNutricional from "../components/Nutricion/EvaluacionNutricional";
 
+
+
 function Nutricion() {
   const { expedientes } = useExpedientes();
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
@@ -29,6 +31,7 @@ function Nutricion() {
       />
     );
   }
+
 
   if (guardado) {
     return (

@@ -28,7 +28,7 @@ function FichaPreclinicaCompleta({ paciente, onVolver }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="font-bold text-gray-800 text-lg">
-            {paciente.nombre} {paciente.cuenta}
+            {paciente.nombre} 
           </h2>
           <p className="text-gray-500 text-sm">Ficha de PreClínica completa</p>
         </div>

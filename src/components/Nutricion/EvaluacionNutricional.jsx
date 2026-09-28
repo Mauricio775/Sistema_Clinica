@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SolicitudTratamiento from "../fisioterapia/SolicitudTratamiento";
+import { TIPO_MEDICACION } from "../../data/tratamientos";
 
 const inputClass =
   "w-full border border-gray-300 rounded-lg px-4 py-2 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500";
@@ -82,6 +84,22 @@ const initialForm = {
 function EvaluacionNutricional({ onGuardar }) {
   const [form, setForm] = useState(initialForm);
 
+    const [desearTratamiento, setDesearTratamiento] = useState(false);
+  const [tratamiento, setTratamiento] = useState({
+    tipo: "",
+    via: "",
+    indicaciones: "",
+  });
+  const [intentoGuardar, setIntentoGuardar] = useState(false);
+
+  const handleTratamientoChange = (campo, valor) =>
+    setTratamiento((prev) => ({ ...prev, [campo]: valor }));
+
+  const tratamientoIncompleto =
+    desearTratamiento &&
+    (!tratamiento.tipo ||
+      (tratamiento.tipo === TIPO_MEDICACION && !tratamiento.via));
+
   const handleChange = (campo, valor) =>
     setForm((prev) => ({ ...prev, [campo]: valor }));
 
@@ -136,8 +154,15 @@ function EvaluacionNutricional({ onGuardar }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Evaluación nutricional:", form); // luego será una llamada a la API
-    onGuardar(form);
+    setIntentoGuardar(true);
+    if (tratamientoIncompleto) return; // no deja guardar si falta algo
+
+    const datos = {
+      ...form,
+      solicitudTratamiento: desearTratamiento ? tratamiento : null,
+    };
+    console.log("Evaluación nutricional:", datos); // luego será una llamada a la API
+    onGuardar(datos);
   };
 
   return (
@@ -153,15 +178,7 @@ function EvaluacionNutricional({ onGuardar }) {
         <section>
           <p className={seccionTitulo}>Datos de la evaluación</p>
           <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label className="text-sm text-gray-700">Atendido por</label>
-              <input
-                type="text"
-                value={form.atendidoPor}
-                onChange={(e) => handleChange("atendidoPor", e.target.value)}
-                className={inputClass}
-              />
-            </div>
+            
             <div>
               <label className="text-sm text-gray-700">Fecha</label>
               <input
@@ -192,51 +209,6 @@ function EvaluacionNutricional({ onGuardar }) {
           </div>
         </section>
 
-        {/* Antecedentes patológicos personales */}
-        <section>
-          <p className={seccionTitulo}>Antecedentes patológicos personales</p>
-          <div className="border border-gray-200 rounded-lg divide-y divide-gray-200">
-            {enfermedadesList.map((e) => (
-              <div key={e.key} className="flex items-center justify-between px-4 py-2">
-                <span className="text-sm text-gray-700">{e.label}</span>
-                <div className="flex gap-4">
-                  {["Sí", "No"].map((op) => (
-                    <label key={op} className="flex items-center gap-1 text-sm text-gray-600">
-                      <input
-                        type="radio"
-                        name={`antecedente-${e.key}`}
-                        checked={form.antecedentesPersonales[e.key] === op}
-                        onChange={() => handleAntecedente(e.key, op)}
-                        className="accent-blue-600"
-                      />
-                      {op}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-3">
-            <label className="text-sm text-gray-700">Otras enfermedades</label>
-            <input
-              type="text"
-              value={form.otrasEnfermedades}
-              onChange={(e) => handleChange("otrasEnfermedades", e.target.value)}
-              className={inputClass}
-            />
-          </div>
-        </section>
-
-        {/* Antecedentes patológicos familiares */}
-        <section>
-          <p className={seccionTitulo}>Antecedentes patológicos familiares</p>
-          <textarea
-            value={form.antecedentesFamiliares}
-            onChange={(e) => handleChange("antecedentesFamiliares", e.target.value)}
-            rows={3}
-            className={inputClass}
-          />
-        </section>
 
         {/* Antecedentes alimentarios */}
         <section>
@@ -778,6 +750,23 @@ function EvaluacionNutricional({ onGuardar }) {
             </div>
           </div>
         </section>
+
+
+        <SolicitudTratamiento
+          desea={desearTratamiento}
+          onDeseaChange={setDesearTratamiento}
+          valores={tratamiento}
+          onChange={handleTratamientoChange}
+        />
+
+        {intentoGuardar && tratamientoIncompleto && (
+          <p className="text-sm text-red-600">
+            Seleccione el tipo de tratamiento y, para medicación, la vía de administración.
+          </p>
+        )}
+
+
+        
 
         <button
           type="submit"
