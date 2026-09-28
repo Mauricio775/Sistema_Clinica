@@ -1,52 +1,45 @@
 export const fichaGinecologica = {
-  datosGenerales: [
-    { key: "nombre", label: "Nombre", type: "text" },
-    { key: "edad", label: "Edad", type: "text" },
-    { key: "numeroCuenta", label: "Número de cuenta", type: "text" },
-    { key: "carrera", label: "Carrera", type: "text" },
-    { key: "direccion", label: "Dirección", type: "text" },
-    { key: "telefono", label: "Teléfono", type: "text" },
-    { key: "fechaHora", label: "Fecha & Hora", type: "text" },
-    { key: "medicoTratante", label: "Médico tratante", type: "text" },
-  ],
-  signosVitales: [
-    { key: "pa", label: "P/A", type: "text" },
-    { key: "pulso", label: "Pulso", type: "text" },
+  consulta: [
+    { key: "motivoConsultaGine", label: "Motivo de consulta", type: "textarea" },
+    { key: "fum", label: "FUM (fecha de última menstruación)", type: "date" },
     { key: "so2", label: "SO2", type: "text" },
-    { key: "temperatura", label: "Temperatura", type: "text" },
-  ],
-  heaFum: [
-    { key: "hea", label: "HEA", type: "textarea" },
-    { key: "fum", label: "FUM", type: "text" },
   ],
   antecedentesGinecologicos: [
     { key: "menarquia", label: "Menarquia", type: "text" },
-    { key: "inicioVidaSexual", label: "Inicio de vida sexual", type: "text" },
-    { key: "numeroParejasSexuales", label: "Número de parejas sexuales", type: "text" },
-    { key: "cicloMenstrual", label: "Ciclo Menstrual", type: "text" },
+    { key: "cicloMenstrual", label: "Ciclo menstrual", type: "text" },
     { key: "menopausia", label: "Menopausia", type: "text" },
   ],
   metodosAnticonceptivos: [
     {
       key: "metodoHormonal",
-      label: "Hormonal",
+      label: "Método anticonceptivo",
       type: "radio",
-      options: ["ACO", "DIU", "Condón", "Ritmo", "Inyección (1 mes /3 meses)"],
+      options: ["Ninguno", "ACO", "DIU", "Condón", "Ritmo", "Inyección (1 mes / 3 meses)"],
     },
     { key: "otroMetodo", label: "Otro", type: "text" },
     { key: "otroMetodoCual", label: "¿Cuál?", type: "text" },
     { key: "desdeCuandoMetodo", label: "¿Desde cuándo?", type: "text" },
-    { key: "fechaUltimaCitologia", label: "Fecha de última citología", type: "text" },
+    { key: "fechaUltimaCitologia", label: "Fecha de última citología", type: "date" },
     { key: "resultadoAnterior", label: "Resultado anterior", type: "text" },
     { key: "vacunaVPH", label: "¿Se ha aplicado vacuna contra VPH?", type: "radio", options: ["Sí", "No"] },
   ],
   antecedentesObstetricosColumnas: ["Gestas", "Partos", "Cesáreas", "Óbitos", "Aborto", "Hijos vivos", "Hijos muertos"],
   patologiaCervical: [
-    { key: "sinAntecedentesPatologia", label: "No", type: "checkbox" },
-    { key: "condilomas", label: "Condilomas", type: "checkbox" },
-    { key: "displasia", label: "Displasia", type: "checkbox" },
-    { key: "cancer", label: "Cáncer", type: "checkbox" },
-    { key: "tratamientoRecibido", label: "Tratamiento recibido", type: "textarea" },
+    { key: "patCervCondilomas", label: "Condilomas", type: "checkbox" },
+    { key: "patCervDisplasia", label: "Displasia", type: "checkbox" },
+    { key: "patCervCancer", label: "Cáncer", type: "checkbox" },
+    { key: "patCervTratamiento", label: "Tratamiento recibido", type: "textarea" },
+  ],
+  examenMamas: [
+    { key: "mamasEstado", label: "Descripción de mamas", type: "radio", options: ["Normal", "Anormal"] },
+    { key: "mamasDescriba", label: "Describa", type: "textarea" },
+  ],
+  examenGenital: [
+    { key: "genitalEstado", label: "Inspección visual del área genital (Bus y Vulva)", type: "radio", options: ["Normal", "Anormal"] },
+    { key: "genitalDescriba", label: "Describa", type: "textarea" },
+  ],
+  seRealizaCitologia: [
+    { key: "seRealizaCitologia", label: "¿Se realizará toma de citología en esta consulta?", type: "radio", options: ["Sí", "No"] },
   ],
   requisitosCitologia: [
     { key: "cursaMenstruacion", label: "¿Actualmente cursa con la menstruación?", type: "radio", options: ["SI", "NO"] },
@@ -54,25 +47,23 @@ export const fichaGinecologica = {
     { key: "tratamientoViaVaginal", label: "¿Ha usado tratamiento vía vaginal en los últimos días? (Ej. Óvulos)", type: "radio", options: ["SI", "NO"] },
     { key: "duchasVaginales", label: "¿Ha usado duchas vaginales, cremas o tampones en los últimos días?", type: "radio", options: ["SI", "NO"] },
   ],
-  examenFisico: [
-    { key: "mamasEstado", label: "Descripción de mamas", type: "radio", options: ["Normal", "Anormal"] },
-    { key: "mamasDescriba", label: "Describa", type: "textarea" },
-    { key: "genitalEstado", label: "Inspección visual del área genital", type: "radio", options: ["Normal", "Anormal"] },
-    { key: "genitalDescriba", label: "Describa", type: "textarea" },
-    { key: "cervixAspecto", label: "Aspecto del Cérvix", type: "radio", options: ["Normal", "Inflamación", "Tumor", "Eritema"] },
+  cervix: [
+    { key: "cervixAspecto", label: "Aspecto del cérvix", type: "radio", options: ["Normal", "Inflamación", "Tumor", "Eritema"] },
     { key: "cervixSecrecion", label: "Secreción", type: "radio", options: ["Normal", "Leucorrea", "Hemorrágica", "Purulenta"] },
   ],
-  otrosDatos: [
+  citologiaDatos: [
     { key: "otrosDatosClinicos", label: "Otros datos clínicos", type: "textarea" },
-    { key: "fechaHoraCitologia", label: "Fecha y hora de la toma de Citología", type: "text" },
+    { key: "fechaHoraCitologia", label: "Fecha y hora de la toma de citología", type: "datetime-local" },
   ],
-  seguimiento: [
-    { key: "fechaHoraSeguimiento", label: "Fecha & Hora", type: "text" },
-    { key: "medicoTratanteSeguimiento", label: "Médico tratante", type: "text" },
-    { key: "resultadoCitologia", label: "Resultado de Citología", type: "radio", options: ["Normal", "Anormal"] },
+  resultadoCitologia: [
+    { key: "resultadoCitologia", label: "Resultado de citología", type: "radio", options: ["Normal", "Anormal"] },
     { key: "resultadoDescriba", label: "Describa", type: "textarea" },
-    { key: "tratamientoFinal", label: "Tratamiento", type: "textarea" },
-    { key: "seRefiere", label: "Se refiere", type: "radio", options: ["Sí", "No"] },
-    { key: "adonde", label: "Adonde", type: "text" },
+  ],
+  plan: [
+    { key: "diagnosticoGine", label: "Diagnóstico", type: "textarea" },
+    { key: "tratamientoGine", label: "Tratamiento", type: "textarea" },
+  ],
+  remision: [
+    { key: "motivoRemision", label: "Motivo de la remisión", type: "textarea" },
   ],
 };
